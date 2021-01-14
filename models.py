@@ -1,5 +1,6 @@
 """Models for Blogly."""
 from flask_sqlalchemy import SQLAlchemy
+from datetime import datetime
 
 db=SQLAlchemy()
 
@@ -22,13 +23,16 @@ class User(db.Model):
                     nullable=True)
     
 
-    def greet(self):
-        """Greet using name."""
+class Post(db.Model):
 
-        return f"Hi I am {self.name} the {self.species}"
+    __tablename__="posts"
 
-    def feed(self, amt=20):
-        """Nom nom nom. Update hunger based off amt"""
-
-        self.hunger -= amt
-        self.hunger = max(self.hunger, 0)
+    id = db.Column(db.Integer,  primary_key=True, autoincrement=True)
+    title=db.Column(db.String(50),
+                nullable=False, unique=True)
+    content=db.Column(db.String,
+                nullable=False)
+    created_at=db.Column(db.DateTime(),index=True, default=datetime.now)
+    user_id=db.Column(db.Integer, db.ForeignKey('users.id'))
+    
+    user=db.relationship('User', backref = 'posts')

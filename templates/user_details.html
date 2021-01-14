@@ -5,8 +5,18 @@
 {% if user.image_url %}
     <img src="{{user.image_url}}">
 {% endif %}
+<h3>Posts</h3>
+<ul>
+    {% for post in user.posts %}
+    <li><a href="/posts/{{ post.id }}">{{ post.title }}</a></li>
+    {% endfor %}
+    {% if user.posts|length == 0 %}
+    <p>There are currently no posts for this user</p>
+    {% endif %}
+  </ul>
+<a href="/users/{{user.id}}/posts/new"><button>Add Post</button></a>
 <br>
-<a href="/">Go back</a>
+<a href="/">Users List</a>
 <a href="/users/{{user.id}}/edit-user" ><button>Edit</button></a>
 <a href="/users/{{user.id}}/delete"><button>Delete</button></a>
 {% endblock %}
