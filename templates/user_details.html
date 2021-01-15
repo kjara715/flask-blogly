@@ -1,22 +1,29 @@
 {% extends "base.html" %}
 {% block title%}User Details{% endblock %}
 {% block content%}
-<h2>{{user.first_name}} {{user.last_name}}</h2>
-{% if user.image_url %}
-    <img src="{{user.image_url}}">
-{% endif %}
-<h3>Posts</h3>
-<ul>
-    {% for post in user.posts %}
-    <li><a href="/posts/{{ post.id }}">{{ post.title }}</a></li>
-    {% endfor %}
-    {% if user.posts|length == 0 %}
-    <p>There are currently no posts for this user</p>
-    {% endif %}
-  </ul>
-<a href="/users/{{user.id}}/posts/new"><button>Add Post</button></a>
-<br>
-<a href="/">Users List</a>
-<a href="/users/{{user.id}}/edit-user" ><button>Edit</button></a>
-<a href="/users/{{user.id}}/delete"><button>Delete</button></a>
+<div class="card" style="width: 30rem;">
+  {% if user.image_url %}
+    <img src="..." class="card-img-top" alt="...">
+  {% endif %}
+  <div class="card-body">
+    <h5 class="card-title">{{user.first_name}} {{user.last_name}}</h5>
+    <h6 class="card-text">Posts:</h6>
+    <ul class="card-text">
+      {% for post in user.posts %}
+      <li><a href="/posts/{{ post.id }}">{{ post.title }}</a></li>
+      {% endfor %}
+      {% if user.posts|length == 0 %}
+      <p>There are currently no posts for this user</p>
+      {% endif %}
+    </ul>
+    <a href="/users/{{user.id}}/posts/new class="btn btn-primary"">Add Post</a>
+    <br>
+    <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+      <a href="/users" class="btn btn-success">All Users</a>
+      <a href="/users/{{user.id}}/edit-user" class="btn btn-warning">Edit User</a>
+      <a href="/users/{{user.id}}/delete" class="btn btn-danger">Delete User</a>
+    </div>
+  </div>
+</div>
 {% endblock %}
+

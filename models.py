@@ -33,6 +33,29 @@ class Post(db.Model):
     content=db.Column(db.String,
                 nullable=False)
     created_at=db.Column(db.DateTime(),index=True, default=datetime.now)
-    user_id=db.Column(db.Integer, db.ForeignKey('users.id'))
+
+    user_id=db.Column(db.Integer, db.ForeignKey('users.id', ondelete="CASCADE"))
+    tags = db.relationship('Tag',
+                               secondary='post_tags',
+                               backref='posts')
     
-    user=db.relationship('User', backref = 'posts')
+
+
+class Tag(db.Model):
+
+    __tablename__="tags"
+    
+    id = db.Column(db.Integer,  primary_key=True, autoincrement=True)
+    name=db.Column(db.String(40), nullable=False, unique=True)
+
+class PostTag(db.Model):
+
+    __tablename__="post_tags"
+
+    post_id = db.Column(db.Integer,
+                       db.ForeignKey("posts.id", ondelete="CASCADE"),
+                       primary_key=True)
+                       #together they are the primary key (the two columns)
+    tag_id = db.Column(db.Integer,
+                          db.ForeignKey("tags.id", ondelete="CASCADE"),
+                          primary_key=True)
