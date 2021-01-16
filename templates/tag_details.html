@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title%}Tag Details{% endblock %}
+{% block content %}
+<h1>{{tag.name}}</h1>
+<ul>
+    {% for post in tag.posts %}
+    <li><a href="/posts/{{post.id}}">{{ post.title }}</a></li>
+    {% endfor %}
+    {% if tag.posts|length == 0 %}
+    <p>There are currently no posts using this tag</p>
+    {% endif %}
+    <a href="/tags/{{tag.id}}/edit">Edit Tag</a>
+    <a href="/tags/{{tag.id}}/delete">Delete Tag</a>
+</ul>
+{% endblock %}

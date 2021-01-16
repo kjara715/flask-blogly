@@ -21,6 +21,8 @@ class User(db.Model):
                      nullable=False)
     image_url = db.Column(db.String, 
                     nullable=True)
+    posts= db.relationship("Post", backref="user", cascade="all, delete-orphan")
+    
     
 
 class Post(db.Model):
@@ -32,9 +34,11 @@ class Post(db.Model):
                 nullable=False, unique=True)
     content=db.Column(db.String,
                 nullable=False)
-    created_at=db.Column(db.DateTime(),index=True, default=datetime.now)
+    created_at=db.Column(db.DateTime, nullable=False,
+                default=datetime.utcnow)
 
     user_id=db.Column(db.Integer, db.ForeignKey('users.id', ondelete="CASCADE"))
+
     tags = db.relationship('Tag',
                                secondary='post_tags',
                                backref='posts')
